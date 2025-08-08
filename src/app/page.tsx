@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React, { useState } from "react";
 import {
   Check,
@@ -15,11 +15,14 @@ import {
 } from "lucide-react";
 
 export default function EdTechFeatureSelector() {
-  const [selectedFeatures, setSelectedFeatures] = useState<Record<string, boolean>>({});
+  const [selectedFeatures, setSelectedFeatures] = useState<
+    Record<string, boolean>
+  >({});
   const [selectedCount, setSelectedCount] = useState(0);
   const [showHeader, setShowHeader] = useState(true);
-  const [expandedExplanations, setExpandedExplanations] = useState<Record<string, boolean>>({});
-
+  const [expandedExplanations, setExpandedExplanations] = useState<
+    Record<string, boolean>
+  >({});
 
   const featureCategories = [
     {
@@ -606,17 +609,10 @@ export default function EdTechFeatureSelector() {
     },
   ];
 
-
-
-
   interface Feature {
     name: string;
     explanation: string;
   }
-
- 
-
- 
 
   interface FeatureToggleParams {
     categoryId: string;
@@ -651,14 +647,18 @@ export default function EdTechFeatureSelector() {
     features: HandleCategoryToggleParams["features"]
   ): void => {
     const newSelected: Record<string, boolean> = { ...selectedFeatures };
-    const categoryKeys: string[] = features.map((_, index) => `${categoryId}-${index}`);
+    const categoryKeys: string[] = features.map(
+      (_, index) => `${categoryId}-${index}`
+    );
     const allSelected: boolean = categoryKeys.every((key) => newSelected[key]);
 
     if (allSelected) {
       categoryKeys.forEach((key) => delete newSelected[key]);
       setSelectedCount(selectedCount - categoryKeys.length);
     } else {
-      const newlySelected: string[] = categoryKeys.filter((key) => !newSelected[key]);
+      const newlySelected: string[] = categoryKeys.filter(
+        (key) => !newSelected[key]
+      );
       categoryKeys.forEach((key) => (newSelected[key] = true));
       setSelectedCount(selectedCount + newlySelected.length);
     }
@@ -960,16 +960,46 @@ export default function EdTechFeatureSelector() {
               </div>
               <div className="flex gap-3 sm:gap-4 flex-shrink-0">
                 {selectedCount > 0 && (
-                  <button
-                    className="px-4 sm:px-6 py-2 border-2 border-gray-400 text-gray-600 font-medium rounded-lg hover:bg-gray-100 hover:text-black transition-colors text-sm sm:text-base"
-                    onClick={() => {
-                      setSelectedFeatures({});
-                      setSelectedCount(0);
-                    }}
-                  >
-                    <span className="hidden sm:inline">Clear All</span>
-                    <span className="sm:hidden">Clear</span>
-                  </button>
+                  <>
+                    <button
+                      className="px-4 sm:px-6 py-2 border-2 border-gray-400 text-gray-600 font-medium rounded-lg hover:bg-gray-100 hover:text-black transition-colors text-sm sm:text-base"
+                      onClick={() => {
+                        setSelectedFeatures({});
+                        setSelectedCount(0);
+                      }}
+                    >
+                      <span className="hidden sm:inline">Clear All</span>
+                      <span className="sm:hidden">Clear</span>
+                    </button>
+                    <button
+                      className="px-4 sm:px-6 py-2 bg-green-600 text-white font-bold rounded-lg hover:bg-green-700 transition-colors text-sm sm:text-base"
+                      onClick={() => {
+                        // Collect selected features
+                        const selectedList: string[] = [];
+                        featureCategories.forEach((cat) => {
+                          cat.features.forEach((feature, idx) => {
+                            const key = `${cat.id}-${idx}`;
+                            if (selectedFeatures[key]) {
+                              selectedList.push(
+                                `${cat.title}: ${feature.name}`
+                              );
+                            }
+                          });
+                        });
+                        const message = encodeURIComponent(
+                          `Hi, I'm interested in these EdTech features:\n\n${selectedList.join(
+                            "\n"
+                          )}\n\nPlease contact me!`
+                        );
+                        window.open(
+                          `https://wa.me/919548999129?text=${message}`,
+                          "_blank"
+                        );
+                      }}
+                    >
+                      Send to WhatsApp
+                    </button>
+                  </>
                 )}
               </div>
             </div>
@@ -980,4 +1010,5 @@ export default function EdTechFeatureSelector() {
       {/* Bottom padding to prevent content overlap */}
       <div className="h-20 sm:h-24"></div>
     </div>
-  ); }
+  );
+}
