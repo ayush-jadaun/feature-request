@@ -686,57 +686,54 @@ export default function EdTechFeatureSelector() {
       {/* Enhanced Header with dismiss option */}
       {showHeader && (
         <div className="bg-black text-white relative border-b border-gray-200">
-          <div className="max-w-7xl mx-auto px-6 py-16">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12 lg:py-16">
             <button
               onClick={() => setShowHeader(false)}
               className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
             >
-              <X className="w-6 h-6" />
+              <X className="w-5 h-5 sm:w-6 sm:h-6" />
             </button>
 
             <div className="text-center">
-              <h1 className="text-6xl font-bold mb-6 tracking-tight">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 tracking-tight">
                 Build Your EdTech Empire
               </h1>
-              <p className="text-xl text-gray-300 mb-10 max-w-3xl mx-auto leading-relaxed">
+              <p className="text-base sm:text-lg lg:text-xl text-gray-300 mb-6 sm:mb-8 lg:mb-10 max-w-3xl mx-auto leading-relaxed px-4">
                 Create a world-class education platform like Physics Wallah or
                 Unacademy. Select the features you need and we&#39;ll build your
                 custom EdTech solution.
               </p>
 
               {/* Enhanced Stats */}
-              <div className="flex justify-center gap-16 mb-10">
+              <div className="flex justify-center gap-6 sm:gap-12 lg:gap-16 mb-6 sm:mb-8 lg:mb-10">
                 <div className="text-center">
-                  <div className="text-4xl font-bold mb-2">
+                  <div className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-1 sm:mb-2">
                     {selectedCount}
                   </div>
-                  <div className="text-sm text-gray-400 uppercase tracking-wider">
+                  <div className="text-xs sm:text-sm text-gray-400 uppercase tracking-wider">
                     Features Selected
                   </div>
                 </div>
                 <div className="text-center">
-                  <div className="text-4xl font-bold mb-2">
+                  <div className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-1 sm:mb-2">
                     {featureCategories.length}
                   </div>
-                  <div className="text-sm text-gray-400 uppercase tracking-wider">
+                  <div className="text-xs sm:text-sm text-gray-400 uppercase tracking-wider">
                     Categories
                   </div>
                 </div>
                 <div className="text-center">
-                  <div className="text-4xl font-bold mb-2">
+                  <div className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-1 sm:mb-2">
                     {featureCategories.reduce(
                       (acc, cat) => acc + cat.features.length,
                       0
                     )}
                   </div>
-                  <div className="text-sm text-gray-400 uppercase tracking-wider">
+                  <div className="text-xs sm:text-sm text-gray-400 uppercase tracking-wider">
                     Total Features
                   </div>
                 </div>
               </div>
-
-    
-              
             </div>
           </div>
         </div>
@@ -745,25 +742,24 @@ export default function EdTechFeatureSelector() {
       {/* Compact header when main header is dismissed */}
       {!showHeader && (
         <div className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-20">
-          <div className="max-w-7xl mx-auto px-6 py-4">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
             <div className="flex items-center justify-between">
               <div>
-                <h1 className="text-2xl font-bold text-black">
+                <h1 className="text-xl sm:text-2xl font-bold text-black">
                   EdTech Platform Builder
                 </h1>
                 <p className="text-sm text-gray-600">
                   {selectedCount} features selected
                 </p>
               </div>
-              {/* Removed Get Quote button */}
             </div>
           </div>
         </div>
       )}
 
       {/* Enhanced Features Grid */}
-      <div className="max-w-7xl mx-auto px-6 py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8 lg:py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
           {featureCategories.map((category) => {
             const categoryKeys = category.features.map(
               (_, index) => `${category.id}-${index}`
@@ -781,19 +777,19 @@ export default function EdTechFeatureSelector() {
                 className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden hover:shadow-xl transition-shadow"
               >
                 {/* Enhanced Category Header */}
-                <div className="bg-gray-100 border-b border-gray-200 p-8">
+                <div className="bg-gray-100 border-b border-gray-200 p-4 sm:p-6 lg:p-8">
                   <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-4">
-                      <div className="p-3 bg-black rounded-lg shadow-sm">
-                        <div className="text-white">
+                    <div className="flex items-center gap-3 sm:gap-4">
+                      <div className="p-2 sm:p-3 bg-black rounded-lg shadow-sm flex-shrink-0">
+                        <div className="text-white text-sm sm:text-base">
                           {category.icon}
                         </div>
                       </div>
-                      <div>
-                        <h3 className="text-2xl font-bold text-black">
+                      <div className="min-w-0 flex-1">
+                        <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-black">
                           {category.title}
                         </h3>
-                        <p className="text-gray-600 mt-1">
+                        <p className="text-sm sm:text-base text-gray-600 mt-1">
                           {category.description}
                         </p>
                       </div>
@@ -804,7 +800,7 @@ export default function EdTechFeatureSelector() {
                     onClick={() =>
                       handleCategoryToggle(category.id, category.features)
                     }
-                    className={`w-full px-6 py-3 text-sm font-bold transition-all rounded-lg ${
+                    className={`w-full px-4 sm:px-6 py-2 sm:py-3 text-xs sm:text-sm font-bold transition-all rounded-lg ${
                       allSelected
                         ? "bg-gray-800 text-white hover:bg-gray-700"
                         : someSelected
@@ -812,21 +808,34 @@ export default function EdTechFeatureSelector() {
                         : "bg-black text-white hover:bg-gray-800"
                     }`}
                   >
-                    {allSelected
-                      ? "✓ All Selected - Click to Remove"
-                      : someSelected
-                      ? `Select Remaining (${
-                          categoryKeys.length -
-                          categoryKeys.filter((key) => selectedFeatures[key])
-                            .length
-                        } left)`
-                      : "Select All Features"}
+                    <span className="block sm:hidden">
+                      {allSelected
+                        ? "✓ All Selected"
+                        : someSelected
+                        ? `${
+                            categoryKeys.length -
+                            categoryKeys.filter((key) => selectedFeatures[key])
+                              .length
+                          } left`
+                        : "Select All"}
+                    </span>
+                    <span className="hidden sm:block">
+                      {allSelected
+                        ? "✓ All Selected - Click to Remove"
+                        : someSelected
+                        ? `Select Remaining (${
+                            categoryKeys.length -
+                            categoryKeys.filter((key) => selectedFeatures[key])
+                              .length
+                          } left)`
+                        : "Select All Features"}
+                    </span>
                   </button>
                 </div>
 
                 {/* Enhanced Features List */}
-                <div className="p-8">
-                  <div className="space-y-6">
+                <div className="p-4 sm:p-6 lg:p-8">
+                  <div className="space-y-4 sm:space-y-6">
                     {category.features.map((feature, index) => {
                       const key = `${category.id}-${index}`;
                       const explanationKey = `${category.id}-${index}-explanation`;
@@ -837,13 +846,13 @@ export default function EdTechFeatureSelector() {
                       return (
                         <div
                           key={index}
-                          className={`border rounded-lg p-4 transition-all ${
+                          className={`border rounded-lg p-3 sm:p-4 transition-all ${
                             isSelected
                               ? "border-black bg-gray-100"
                               : "border-gray-300 hover:border-gray-400 bg-white"
                           }`}
                         >
-                          <label className="flex items-start gap-4 cursor-pointer">
+                          <label className="flex items-start gap-3 sm:gap-4 cursor-pointer">
                             <div className="flex-shrink-0 mt-1">
                               <input
                                 type="checkbox"
@@ -854,24 +863,22 @@ export default function EdTechFeatureSelector() {
                                 className="sr-only"
                               />
                               <div
-                                className={`w-6 h-6 border-2 rounded-md flex items-center justify-center transition-all ${
+                                className={`w-5 h-5 sm:w-6 sm:h-6 border-2 rounded-md flex items-center justify-center transition-all ${
                                   isSelected
                                     ? "bg-black border-black"
                                     : "border-gray-400 hover:border-gray-500"
                                 }`}
                               >
                                 {isSelected && (
-                                  <Check className="w-4 h-4 text-white" />
+                                  <Check className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
                                 )}
                               </div>
                             </div>
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center justify-between">
                                 <span
-                                  className={`font-semibold leading-relaxed transition-colors ${
-                                    isSelected
-                                      ? "text-black"
-                                      : "text-gray-900"
+                                  className={`text-sm sm:text-base font-semibold leading-relaxed transition-colors pr-2 ${
+                                    isSelected ? "text-black" : "text-gray-900"
                                   }`}
                                 >
                                   {feature.name}
@@ -881,9 +888,9 @@ export default function EdTechFeatureSelector() {
                                     e.preventDefault();
                                     toggleExplanation(explanationKey);
                                   }}
-                                  className="ml-2 text-gray-500 hover:text-black transition-colors"
+                                  className="flex-shrink-0 ml-2 text-gray-500 hover:text-black transition-colors"
                                 >
-                                  <Info className="w-5 h-5" />
+                                  <Info className="w-4 h-4 sm:w-5 sm:h-5" />
                                 </button>
                               </div>
 
@@ -891,20 +898,20 @@ export default function EdTechFeatureSelector() {
                               <div
                                 className={`overflow-hidden transition-all duration-300 ${
                                   isExplanationExpanded
-                                    ? "max-h-96 opacity-100 mt-3"
+                                    ? "max-h-96 opacity-100 mt-2 sm:mt-3"
                                     : "max-h-0 opacity-0"
                                 }`}
                               >
-                                <div className="bg-gray-100 border border-gray-300 rounded-lg p-4">
+                                <div className="bg-gray-100 border border-gray-300 rounded-lg p-3 sm:p-4">
                                   <div className="flex items-start gap-2">
-                                    <div className="bg-gray-300 rounded-full p-1 mt-0.5">
+                                    <div className="bg-gray-300 rounded-full p-1 mt-0.5 flex-shrink-0">
                                       <Info className="w-3 h-3 text-gray-600" />
                                     </div>
-                                    <div>
-                                      <h4 className="font-semibold text-gray-800 mb-1">
+                                    <div className="min-w-0 flex-1">
+                                      <h4 className="text-sm font-semibold text-gray-800 mb-1">
                                         What this means:
                                       </h4>
-                                      <p className="text-gray-700 text-sm leading-relaxed">
+                                      <p className="text-xs sm:text-sm text-gray-700 leading-relaxed">
                                         {feature.explanation}
                                       </p>
                                     </div>
@@ -927,32 +934,43 @@ export default function EdTechFeatureSelector() {
       {/* Enhanced Fixed Bottom CTA */}
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-30">
         <div className="bg-gray-50">
-          <div className="max-w-7xl mx-auto px-6 py-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-6">
-                <div className="text-lg font-bold text-black">
-                  {selectedCount === 0
-                    ? "👆 Select features above to get started"
-                    : selectedCount < 10
-                    ? `🎯 ${selectedCount} features selected - Add more for a complete platform`
-                    : selectedCount < 25
-                    ? `🚀 ${selectedCount} features selected - You're building something great!`
-                    : `🔥 ${selectedCount} features selected - Enterprise-level platform!`}
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4">
+            <div className="flex items-center justify-between flex-wrap gap-3">
+              <div className="flex items-center gap-3 sm:gap-6 min-w-0 flex-1">
+                <div className="text-sm sm:text-base lg:text-lg font-bold text-black">
+                  <span className="hidden sm:inline">
+                    {selectedCount === 0
+                      ? "👆 Select features above to get started"
+                      : selectedCount < 10
+                      ? `🎯 ${selectedCount} features selected - Add more for a complete platform`
+                      : selectedCount < 25
+                      ? `🚀 ${selectedCount} features selected - You're building something great!`
+                      : `🔥 ${selectedCount} features selected - Enterprise-level platform!`}
+                  </span>
+                  <span className="sm:hidden">
+                    {selectedCount === 0
+                      ? "👆 Select features"
+                      : selectedCount < 10
+                      ? `🎯 ${selectedCount} selected`
+                      : selectedCount < 25
+                      ? `🚀 ${selectedCount} selected`
+                      : `🔥 ${selectedCount} selected`}
+                  </span>
                 </div>
               </div>
-              <div className="flex gap-4">
+              <div className="flex gap-3 sm:gap-4 flex-shrink-0">
                 {selectedCount > 0 && (
                   <button
-                    className="px-6 py-2 border-2 border-gray-400 text-gray-600 font-medium rounded-lg hover:bg-gray-100 hover:text-black transition-colors"
+                    className="px-4 sm:px-6 py-2 border-2 border-gray-400 text-gray-600 font-medium rounded-lg hover:bg-gray-100 hover:text-black transition-colors text-sm sm:text-base"
                     onClick={() => {
                       setSelectedFeatures({});
                       setSelectedCount(0);
                     }}
                   >
-                    Clear All
+                    <span className="hidden sm:inline">Clear All</span>
+                    <span className="sm:hidden">Clear</span>
                   </button>
                 )}
-              
               </div>
             </div>
           </div>
@@ -960,8 +978,6 @@ export default function EdTechFeatureSelector() {
       </div>
 
       {/* Bottom padding to prevent content overlap */}
-      <div className="h-24"></div>
-
-
+      <div className="h-20 sm:h-24"></div>
     </div>
   ); }
