@@ -11,23 +11,15 @@ import {
   Bell,
   Globe,
   X,
-  ChevronDown,
-  ChevronUp,
   Info,
 } from "lucide-react";
 
 export default function EdTechFeatureSelector() {
-  const [selectedFeatures, setSelectedFeatures] = useState({});
+  const [selectedFeatures, setSelectedFeatures] = useState<Record<string, boolean>>({});
   const [selectedCount, setSelectedCount] = useState(0);
   const [showHeader, setShowHeader] = useState(true);
-  const [expandedExplanations, setExpandedExplanations] = useState({});
-  const [showContactForm, setShowContactForm] = useState(false);
-  const [contactForm, setContactForm] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    message: "",
-  });
+  const [expandedExplanations, setExpandedExplanations] = useState<Record<string, boolean>>({});
+
 
   const featureCategories = [
     {
@@ -614,73 +606,29 @@ export default function EdTechFeatureSelector() {
     },
   ];
 
-  const handleContactSubmit = (e) => {
-    e.preventDefault();
 
-    // Create WhatsApp message
-    const selectedFeaturesList = Object.keys(selectedFeatures)
-      .map((key) => {
-        const [categoryId, featureIndex] = key.split("-");
-        const category = featureCategories.find((cat) => cat.id === categoryId);
-        const feature = category?.features[parseInt(featureIndex)];
-        return `• ${category?.title}: ${feature?.name}`;
-      })
-      .join("\n");
 
-    const whatsappMessage = `Hi! I'm interested in building an EdTech platform.
 
-*Selected Features (${selectedCount}):*
-${selectedFeaturesList}
+  interface Feature {
+    name: string;
+    explanation: string;
+  }
 
-*Contact Details:*
-Name: ${contactForm.name}
-Email: ${contactForm.email}
-Phone: ${contactForm.phone}
+ 
 
-*Additional Requirements:*
-${contactForm.message || "None specified"}
+ 
 
-Please provide a detailed quote and timeline.`;
+  interface FeatureToggleParams {
+    categoryId: string;
+    featureIndex: number;
+  }
 
-    const whatsappUrl = `https://wa.me/919548999129?text=${encodeURIComponent(
-      whatsappMessage
-    )}`;
-    window.open(whatsappUrl, "_blank");
-
-    setShowContactForm(false);
-    setContactForm({ name: "", email: "", phone: "", message: "" });
-  };
-
-  const handleEmailInquiry = () => {
-    const selectedFeaturesList = Object.keys(selectedFeatures)
-      .map((key) => {
-        const [categoryId, featureIndex] = key.split("-");
-        const category = featureCategories.find((cat) => cat.id === categoryId);
-        const feature = category?.features[parseInt(featureIndex)];
-        return `• ${category?.title}: ${feature?.name}`;
-      })
-      .join("\n");
-
-    const emailSubject = `EdTech Platform Development Inquiry - ${selectedCount} Features`;
-    const emailBody = `Hi,
-
-I'm interested in building an EdTech platform with the following features:
-
-Selected Features (${selectedCount}):
-${selectedFeaturesList}
-
-Please provide a detailed quote, timeline, and next steps.
-
-Best regards`;
-
-    window.location.href = `mailto:your.email@example.com?subject=${encodeURIComponent(
-      emailSubject
-    )}&body=${encodeURIComponent(emailBody)}`;
-  };
-
-  const handleFeatureToggle = (categoryId, featureIndex) => {
-    const key = `${categoryId}-${featureIndex}`;
-    const newSelected = { ...selectedFeatures };
+  const handleFeatureToggle = (
+    categoryId: FeatureToggleParams["categoryId"],
+    featureIndex: FeatureToggleParams["featureIndex"]
+  ): void => {
+    const key: string = `${categoryId}-${featureIndex}`;
+    const newSelected: Record<string, boolean> = { ...selectedFeatures };
 
     if (newSelected[key]) {
       delete newSelected[key];
@@ -693,16 +641,24 @@ Best regards`;
     setSelectedFeatures(newSelected);
   };
 
-  const handleCategoryToggle = (categoryId, features) => {
-    const newSelected = { ...selectedFeatures };
-    const categoryKeys = features.map((_, index) => `${categoryId}-${index}`);
-    const allSelected = categoryKeys.every((key) => newSelected[key]);
+  interface HandleCategoryToggleParams {
+    categoryId: string;
+    features: Feature[];
+  }
+
+  const handleCategoryToggle = (
+    categoryId: HandleCategoryToggleParams["categoryId"],
+    features: HandleCategoryToggleParams["features"]
+  ): void => {
+    const newSelected: Record<string, boolean> = { ...selectedFeatures };
+    const categoryKeys: string[] = features.map((_, index) => `${categoryId}-${index}`);
+    const allSelected: boolean = categoryKeys.every((key) => newSelected[key]);
 
     if (allSelected) {
       categoryKeys.forEach((key) => delete newSelected[key]);
       setSelectedCount(selectedCount - categoryKeys.length);
     } else {
-      const newlySelected = categoryKeys.filter((key) => !newSelected[key]);
+      const newlySelected: string[] = categoryKeys.filter((key) => !newSelected[key]);
       categoryKeys.forEach((key) => (newSelected[key] = true));
       setSelectedCount(selectedCount + newlySelected.length);
     }
@@ -710,8 +666,16 @@ Best regards`;
     setSelectedFeatures(newSelected);
   };
 
-  const toggleExplanation = (key) => {
-    setExpandedExplanations((prev) => ({
+  interface ExpandedExplanations {
+    [key: string]: boolean;
+  }
+
+  interface ToggleExplanationParams {
+    key: string;
+  }
+
+  const toggleExplanation = (key: ToggleExplanationParams["key"]): void => {
+    setExpandedExplanations((prev: ExpandedExplanations) => ({
       ...prev,
       [key]: !prev[key],
     }));
@@ -736,7 +700,7 @@ Best regards`;
               </h1>
               <p className="text-xl text-gray-300 mb-10 max-w-3xl mx-auto leading-relaxed">
                 Create a world-class education platform like Physics Wallah or
-                Unacademy. Select the features you need and we'll build your
+                Unacademy. Select the features you need and we&#39;ll build your
                 custom EdTech solution.
               </p>
 
@@ -771,21 +735,8 @@ Best regards`;
                 </div>
               </div>
 
-              {/* Action Buttons */}
-              <div className="flex justify-center gap-6">
-                <button
-                  onClick={() => setShowContactForm(true)}
-                  className="bg-white text-black px-10 py-4 font-bold text-lg rounded-full hover:bg-gray-200 transition-colors shadow-lg"
-                >
-                  Get Free Quote
-                </button>
-                <button
-                  onClick={handleEmailInquiry}
-                  className="border-2 border-white text-white px-10 py-4 font-bold text-lg rounded-full hover:bg-white hover:text-black transition-colors"
-                >
-                  Email Inquiry
-                </button>
-              </div>
+    
+              
             </div>
           </div>
         </div>
@@ -804,14 +755,7 @@ Best regards`;
                   {selectedCount} features selected
                 </p>
               </div>
-              <div className="flex gap-4">
-                <button
-                  onClick={() => setShowContactForm(true)}
-                  className="bg-black text-white px-6 py-2 font-medium rounded-lg hover:bg-gray-800 transition-colors"
-                >
-                  Get Quote
-                </button>
-              </div>
+              {/* Removed Get Quote button */}
             </div>
           </div>
         </div>
@@ -1008,21 +952,7 @@ Best regards`;
                     Clear All
                   </button>
                 )}
-                <button
-                  className={`px-8 py-3 font-bold rounded-lg transition-all ${
-                    selectedCount > 0
-                      ? "bg-black text-white hover:bg-gray-800 shadow-lg transform hover:scale-105"
-                      : "bg-gray-300 text-gray-500 cursor-not-allowed border border-gray-300"
-                  }`}
-                  disabled={selectedCount === 0}
-                  onClick={() =>
-                    selectedCount > 0 && setShowContactForm(true)
-                  }
-                >
-                  {selectedCount === 0
-                    ? "Select Features First"
-                    : `Get Quote for ${selectedCount} Features`}
-                </button>
+              
               </div>
             </div>
           </div>
@@ -1032,126 +962,6 @@ Best regards`;
       {/* Bottom padding to prevent content overlap */}
       <div className="h-24"></div>
 
-      {/* Contact Form Modal */}
-      {showContactForm && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white text-black rounded-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
-            <div className="p-6">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold">Get Your Quote</h2>
-                <button
-                  onClick={() => setShowContactForm(false)}
-                  className="text-gray-500 hover:text-black transition-colors"
-                >
-                  <X className="w-6 h-6" />
-                </button>
-              </div>
 
-              <div className="mb-6 p-4 bg-gray-100 rounded-lg">
-                <div className="text-sm text-gray-600 mb-2">
-                  Selected Features: {selectedCount}
-                </div>
-                <div className="text-lg font-bold">
-                  Ready to discuss your project requirements
-                </div>
-              </div>
-
-              <form onSubmit={handleContactSubmit} className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium mb-2">
-                    Name *
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={contactForm.name}
-                    onChange={(e) =>
-                      setContactForm({ ...contactForm, name: e.target.value })
-                    }
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-black"
-                    placeholder="Your full name"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium mb-2">
-                    Email *
-                  </label>
-                  <input
-                    type="email"
-                    required
-                    value={contactForm.email}
-                    onChange={(e) =>
-                      setContactForm({
-                        ...contactForm,
-                        email: e.target.value,
-                      })
-                    }
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-black"
-                    placeholder="your@email.com"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium mb-2">
-                    Phone *
-                  </label>
-                  <input
-                    type="tel"
-                    required
-                    value={contactForm.phone}
-                    onChange={(e) =>
-                      setContactForm({
-                        ...contactForm,
-                        phone: e.target.value,
-                      })
-                    }
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-black"
-                    placeholder="+91 9999999999"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium mb-2">
-                    Additional Requirements
-                  </label>
-                  <textarea
-                    value={contactForm.message}
-                    onChange={(e) =>
-                      setContactForm({
-                        ...contactForm,
-                        message: e.target.value,
-                      })
-                    }
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-black h-24 resize-none"
-                    placeholder="Any specific requirements, timeline, or questions..."
-                  />
-                </div>
-
-                <div className="flex gap-3 pt-4">
-                  <button
-                    type="submit"
-                    className="flex-1 bg-green-600 text-white py-3 rounded-lg font-medium hover:bg-green-700 transition-colors flex items-center justify-center gap-2"
-                  >
-                    Send via WhatsApp
-                  </button>
-                  <button
-                    type="button"
-                    onClick={handleEmailInquiry}
-                    className="flex-1 bg-black text-white py-3 rounded-lg font-medium hover:bg-gray-800 transition-colors"
-                  >
-                    Send Email
-                  </button>
-                </div>
-              </form>
-
-              <div className="text-xs text-gray-500 text-center mt-4">
-                By submitting, you agree to receive project quotes and
-                updates.
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   ); }
